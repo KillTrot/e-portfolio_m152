@@ -1,3 +1,3 @@
 module.exports = {
-    publicPath: '/e-portfolio-m152/'
+    publicPath: '/e-portfolio_m152/'
 }
