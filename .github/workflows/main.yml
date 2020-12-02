@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-node@master
       - run: npm ci
       - run: npm run build
-      - uses: peaceiris/actions-gh-pages@main
+      - uses: peaceiris/actions-gh-pages@v3.7.3
         with:
          github_token: ${{ secrets.GITHUB_TOKEN }}
          publish_dir: ./build
