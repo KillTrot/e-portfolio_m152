@@ -9,8 +9,7 @@
 <script>
 export default {
   name: "App",
-  components: {
-  }
+  components: {}
 };
 </script>
 
@@ -19,7 +18,7 @@ export default {
   font-family: Magneto;
   src: url("./assets/fonts/MAGNETOB.TTF");
 }
-*{
+* {
   box-sizing: border-box;
 }
 html,

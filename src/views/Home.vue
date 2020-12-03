@@ -157,10 +157,12 @@
       id="background"
       ref="background"
       :style="{
-        background: bgSrc == null ? 'linear-gradient(to top, rgba(150, 54, 148,.5), rgba(42, 42, 42, 1))' :
-          'linear-gradient(to top, rgba(0,0,0,0) 20%, rgba(43,43,43, 1)), url(' +
-          bgSrc +
-          ')',
+        background:
+          bgSrc == null
+            ? 'linear-gradient(to top, rgba(150, 54, 148,.5), rgba(42, 42, 42, 1))'
+            : 'linear-gradient(to top, rgba(0,0,0,0) 20%, rgba(43,43,43, 1)), url(' +
+              bgSrc +
+              ')'
       }"
       :class="{ hidden: bgHidden }"
     ></div>
@@ -173,9 +175,11 @@
         "
         @mouseleave="setBackground(null)"
       >
-        <img
-          src="https://res.cloudinary.com/killtrot/image/upload/v1606901427/IMG_3814_d8jujt.jpg"
-        />
+        <div>
+          <img
+            src="https://res.cloudinary.com/killtrot/image/upload/v1606901427/IMG_3814_d8jujt.jpg"
+          />
+        </div>
         <div style="pointer-events: none" class="badge">
           <span>Video</span>
         </div>
@@ -188,9 +192,11 @@
         "
         @mouseleave="setBackground(null)"
       >
-        <img
-          src="https://res.cloudinary.com/killtrot/image/upload/v1606903857/IMG_3837_ygrfwa.jpg"
-        />
+        <div>
+          <img
+            src="https://res.cloudinary.com/killtrot/image/upload/v1606903857/IMG_3837_ygrfwa.jpg"
+          />
+        </div>
         <div style="pointer-events: none" class="badge">
           <span>Bilder</span>
         </div>
@@ -203,9 +209,11 @@
         "
         @mouseleave="setBackground(null)"
       >
-        <img
-          src="https://res.cloudinary.com/killtrot/image/upload/v1606903929/IMG_3801_yd0q69.jpg"
-        />
+        <div>
+          <img
+            src="https://res.cloudinary.com/killtrot/image/upload/v1606903929/IMG_3801_yd0q69.jpg"
+          />
+        </div>
         <div style="pointer-events: none" class="badge">
           <span>Informationen</span>
         </div>
@@ -221,7 +229,7 @@ export default {
   data: () => ({
     bgSrc: null,
     bgHidden: false,
-    timeout: null,
+    timeout: null
   }),
   methods: {
     setBackground(uri) {
@@ -231,12 +239,17 @@ export default {
         this.bgSrc = uri;
         this.bgHidden = false;
       }, 500);
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style scoped lang="scss">
+@keyframes moveGradient {
+  50% {
+    background-position: 100% 50%;
+  }
+}
 #logo {
   height: 20vh;
   margin: 0 auto;
@@ -253,7 +266,7 @@ export default {
   left: 0;
   background-size: cover !important;
   opacity: 1;
-  transition: all .5s ease-in-out;
+  transition: all 0.5s ease-in-out;
   &.hidden {
     opacity: 0;
   }
@@ -266,8 +279,9 @@ nav {
   align-content: center;
   vertical-align: middle;
   flex-wrap: wrap;
-  z-index: 1;
-  &:hover img, &:hover .badge {
+  z-index: 5;
+  &:hover img,
+  &:hover .badge {
     opacity: 0.1 !important;
   }
   div:not(#background) {
@@ -275,32 +289,65 @@ nav {
     width: 350px;
     margin: 10px;
     z-index: inherit;
-    img:hover {
-      
-    border-radius: 5px;
+    div:not(.badge):hover img {
+      border-radius: 5px;
+
+      transition: border-radius 0.75s ease-in-out, filter 2s;
       opacity: 1 !important;
       box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
         0 10px 10px rgba(0, 0, 0, 0.22);
-
       filter: grayscale(0%);
     }
-    img:hover ~ .badge{
+    div:hover ~ .badge {
       opacity: 1 !important;
+    }
+    div:not(.badge):hover::after {
+      opacity: 1;
+      transition: all 1s ease-in-out 0.5s;
+    }
+    div:not(.badge)::after {
+      opacity: 0;
+      transition: all 0.5s ease-in-out;
+      position: absolute;
+      content: "";
+      z-index: -1;
+      top: calc(-1 * 5px);
+      left: calc(-1 * 5px);
+      width: calc(100% + 5px * 2);
+      height: calc(100% + 5px * 2);
+      background: linear-gradient(
+        60deg,
+        hsl(224, 85%, 66%),
+        hsl(269, 85%, 66%),
+        hsl(314, 85%, 66%),
+        hsl(359, 85%, 66%),
+        hsl(44, 85%, 66%),
+        hsl(89, 85%, 66%),
+        hsl(134, 85%, 66%),
+        hsl(179, 85%, 66%)
+      );
+      background-size: 300% 300%;
+      background-position: 0 50%;
+      border-radius: calc(2 * 5px);
+      animation: moveGradient 4s alternate infinite;
+    }
+    div {
+      position: relative;
     }
     img {
       border-radius: 200px;
-      filter: grayscale(80%);
+      filter: grayscale(90%);
       height: 350px;
       width: auto;
       max-width: 350px;
       object-fit: cover;
       z-index: inherit;
-      transition: all 0.75s, filter 2s;
+      transition: border-radius 0.75s ease-in-out 0.5s, filter 2s;
     }
     .badge {
       position: relative;
       margin: 0 auto;
-      bottom: 54px;
+      bottom: 60px;
       height: 50px;
       width: 50%;
       background: white;
