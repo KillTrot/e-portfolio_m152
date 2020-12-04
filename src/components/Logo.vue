@@ -174,7 +174,7 @@ export default {
     left: 50%;
 
     svg {
-      // position: relative;
+      max-width: 100vw;
     }
 
     &:hover {

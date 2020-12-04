@@ -19,20 +19,18 @@
       <div
         ref="video_link"
         :style="{
-          visibility: video_link.display != 'none' ? 'hidden' : 'visible',
+          visibility:
+            video_link.display != 'none' && video_link.opacity == 1
+              ? 'hidden'
+              : 'visible',
         }"
-        @mouseenter="
-          setBackground(
-            'https://res.cloudinary.com/killtrot/image/upload/v1607067456/video_first_frame_aunt1a.png'
-          )
-        "
+        @mouseenter="setBackground('video')"
         @mouseleave="setBackground(null)"
         @click="changeRoute('/Video')"
+        :class="{ hovered: video_link.hovered }"
       >
-        <div>
-          <img
-            src="https://res.cloudinary.com/killtrot/image/upload/v1607067456/video_first_frame_aunt1a.png"
-          />
+        <div :class="{ hovered: video_link.hovered }">
+          <img :src="video_link.imageUri" />
         </div>
         <div style="pointer-events: none" class="badge">
           <span>Video</span>
@@ -41,20 +39,18 @@
       <div
         ref="images_link"
         :style="{
-          visibility: images_link.display != 'none' ? 'hidden' : 'visible',
+          visibility:
+            images_link.display != 'none' && images_link.opacity == 1
+              ? 'hidden'
+              : 'visible',
         }"
-        @mouseenter="
-          setBackground(
-            'https://res.cloudinary.com/killtrot/image/upload/v1606903857/IMG_3837_ygrfwa.jpg'
-          )
-        "
+        @mouseenter="setBackground('images')"
         @mouseleave="setBackground(null)"
         @click="changeRoute('/Images')"
+        :class="{ hovered: images_link.hovered }"
       >
-        <div>
-          <img
-            src="https://res.cloudinary.com/killtrot/image/upload/v1606903857/IMG_3837_ygrfwa.jpg"
-          />
+        <div :class="{ hovered: images_link.hovered }">
+          <img :src="images_link.imageUri" />
         </div>
         <div style="pointer-events: none" class="badge">
           <span>Bilder</span>
@@ -65,26 +61,24 @@
         :style="{
           visibility: information_link.display != 'none' ? 'hidden' : 'visible',
         }"
-        @mouseenter="
-          setBackground(
-            'https://res.cloudinary.com/killtrot/image/upload/v1606903929/IMG_3801_yd0q69.jpg'
-          )
-        "
+        @mouseenter="setBackground('information')"
         @mouseleave="setBackground(null)"
         @click="changeRoute('/Information')"
+        :class="{ hovered: information_link.hovered }"
       >
-        <div>
-          <img
-            src="https://res.cloudinary.com/killtrot/image/upload/v1606903929/IMG_3801_yd0q69.jpg"
-          />
+        <div :class="{ hovered: information_link.hovered }">
+          <img :src="information_link.imageUri" />
         </div>
         <div style="pointer-events: none" class="badge">
           <span>Informationen</span>
         </div>
       </div>
     </nav>
+    <VideoComponent
+      v-if="video_link.fullscreenHide"
+      @close="hideVideoLink"
+    ></VideoComponent>
     <div
-      v-if="!video_link.fullscreenHide"
       :class="{ animation_div: true, opened: video_link.top == 0 }"
       :style="{
         top: video_link.top + 'px',
@@ -95,8 +89,11 @@
       }"
       v-html="video_link.innerHTML"
     ></div>
-    <VideoComponent v-else></VideoComponent>
-    <component
+    <ImagesComponent
+      v-if="images_link.fullscreenHide"
+      @close="hideImagesLink"
+    ></ImagesComponent>
+    <div
       :class="{ animation_div: true, opened: images_link.top == 0 }"
       :style="{
         top: images_link.top + 'px',
@@ -105,9 +102,8 @@
         width: images_link.width,
         height: images_link.height,
       }"
-      :is="images_link.component"
       v-html="images_link.innerHTML"
-    ></component>
+    ></div>
     <component
       :class="{ animation_div: true, opened: information_link.top == 0 }"
       :style="{
@@ -126,12 +122,14 @@
 <script>
 // import Vue from 'vue';
 import VideoComponent from "@/components/Video.vue";
+import ImagesComponent from "@/components/Images.vue";
 import Logo from "@/components/Logo.vue";
 export default {
   name: "Home",
   components: {
     Logo,
     VideoComponent,
+    ImagesComponent,
   },
   data: () => ({
     bgSrc: null,
@@ -146,6 +144,10 @@ export default {
       innerHTML: "",
       component: "div",
       fullscreenHide: false,
+      imageUri:
+        "https://res.cloudinary.com/killtrot/image/upload/v1607067456/video_first_frame_aunt1a.png",
+      hovered: false,
+      opacity: 0,
     },
     images_link: {
       top: 0,
@@ -156,6 +158,9 @@ export default {
       innerHTML: "",
       component: "div",
       fullscreenHide: false,
+      imageUri:
+        "https://res.cloudinary.com/killtrot/image/upload/v1606903857/IMG_3837_ygrfwa.jpg",
+      hovered: false,
     },
     information_link: {
       top: 0,
@@ -166,31 +171,104 @@ export default {
       innerHTML: "",
       component: "div",
       fullscreenHide: false,
+      imageUri:
+        "https://res.cloudinary.com/killtrot/image/upload/v1606903929/IMG_3801_yd0q69.jpg",
+      hovered: false,
     },
   }),
   methods: {
     setBackground(uri) {
-      if (
-        uri == null &&
-        (this.video_link.display != "none" ||
-          this.information_link.display != "none" ||
-          this.images_link.display != "none")
-      )
-        return;
-      clearTimeout(this.timeout);
       this.bgHidden = true;
-      this.timeout = setTimeout(() => {
-        this.bgSrc = uri;
-        this.bgHidden = false;
-      }, 500);
+      switch (uri) {
+        case null:
+          if (
+            this.video_link.display != "none" ||
+            this.information_link.display != "none" ||
+            this.images_link.display != "none"
+          ) {
+            return;
+          } else {
+            this.video_link.hovered = false;
+            this.images_link.hovered = false;
+            this.information_link.hovered = false;
+            setTimeout(() => {
+              this.bgHidden = false;
+              this.bgSrc = null;
+            }, 500);
+          }
+          break;
+        case "video":
+          clearTimeout(this.timeout);
+          this.timeout = setTimeout(() => {
+            this.bgSrc = this.video_link.imageUri;
+            this.bgHidden = false;
+          }, 500);
+          this.video_link.hovered = true;
+          break;
+        case "images":
+          clearTimeout(this.timeout);
+          this.timeout = setTimeout(() => {
+            this.bgSrc = this.images_link.imageUri;
+            this.bgHidden = false;
+          }, 500);
+          this.images_link.hovered = true;
+          break;
+        case "information":
+          clearTimeout(this.timeout);
+          this.timeout = setTimeout(() => {
+            this.bgSrc = this.information_link.imageUri;
+            this.bgHidden = false;
+          }, 500);
+          this.information_link.hovered = true;
+          break;
+      }
+    },
+    hideVideoLink() {
+      this.$router.push("/").catch(() => {});
+      this.video_link.fullscreenHide = false;
+      setTimeout(() => {
+        this.video_link.width = "350px";
+        this.moveAnimationDivs();
+        this.video_link.height = "350px";
+        this.setBackground("video");
+      }, 100);
+      setTimeout(() => {
+        this.video_link.opacity = 0.99;
+        setTimeout(() => {
+          this.video_link.display = "none";
+        }, 500);
+      }, 1250);
+      setTimeout(() => {
+        this.video_link.hovered = false;
+      }, 1500);
+    },
+    hideImagesLink() {
+      this.$router.push("/").catch(() => {});
+      this.images_link.fullscreenHide = false;
+      setTimeout(() => {
+        this.images_link.width = "350px";
+        this.moveAnimationDivs();
+        this.images_link.height = "350px";
+        this.setBackground("images");
+      }, 100);
+      setTimeout(() => {
+        this.images_link.opacity = 0.99;
+        setTimeout(() => {
+          this.images_link.display = "none";
+        }, 500);
+      }, 1250);
+      setTimeout(() => {
+        this.images_link.hovered = false;
+      }, 1500);
     },
     changeRoute(route) {
-      this.$router.push(route);
+      this.$router.push(route).catch(()=> {});
       this.video_link.display = "none";
       this.information_link.display = "none";
       this.images_link.display = "none";
       switch (route) {
         case "/Video":
+          this.video_link.opacity = 1;
           this.video_link.display = "block";
           this.video_link.innerHTML = this.$refs.video_link.innerHTML;
           setTimeout(() => {
@@ -204,8 +282,18 @@ export default {
           }, 1250);
           break;
         case "/Images":
+          this.images_link.opacity = 1;
           this.images_link.display = "block";
           this.images_link.innerHTML = this.$refs.images_link.innerHTML;
+          setTimeout(() => {
+            this.images_link.top = 0;
+            this.images_link.left = 0;
+            this.images_link.width = "100%";
+            this.images_link.height = "100%";
+          }, 250);
+          setTimeout(() => {
+            this.images_link.fullscreenHide = true;
+          }, 1250);
           break;
         case "/Information":
           this.information_link.display = "block";
@@ -222,10 +310,57 @@ export default {
       this.information_link.left = this.$refs.information_link.getBoundingClientRect().left;
     },
   },
+  watch: {
+    $route: {
+      handler(val, oldVal) {
+        if (val == oldVal) return;
+        this.$nextTick(() => {
+          this.moveAnimationDivs();
+          switch (val.path) {
+            case "/":
+              if (oldVal.path == "/Video") {
+                this.hideVideoLink();
+              } else if (oldVal.path == "/Images") {
+                this.hideImagesLink();
+              } else {
+                this.hideInformationLink();
+              }
+              break;
+            case "/Video":
+              this.changeRoute("/Video");
+              break;
+            case "/Images":
+              this.changeRoute("/Images");
+              break;
+            case "/Information":
+              this.changeRoute("/Information");
+              break;
+          }
+        });
+      },
+      immidiate: true
+    },
+  },
   mounted() {
     window.addEventListener("resize", this.moveAnimationDivs);
     this.$nextTick(() => {
       this.moveAnimationDivs();
+      switch (this.$router.currentRoute.path) {
+        case "/":
+          // this.hideVideoLink();
+          // this.hideImagesLink();
+          // this.hideInformationLink();
+          break;
+        case "/Video":
+          this.changeRoute("/Video");
+          break;
+        case "/Images":
+          this.changeRoute("/Images");
+          break;
+        case "/Information":
+          this.changeRoute("/Information");
+          break;
+      }
     });
   },
   destroyed() {
@@ -258,7 +393,7 @@ export default {
   }
 }
 .animation_div {
-  transition: left 1s, top 1s, width 1s, height 1s;
+  transition: left 1s ease, top 1s ease, width 1s ease, height 1s ease;
   position: absolute;
   z-index: 5;
   img {
@@ -279,7 +414,8 @@ export default {
       img {
         min-width: 100vw;
         max-height: 100vh;
-        min-height: 350px;
+        min-height: 100vh;
+        max-width: 100vw;
       }
     }
     .badge {
@@ -349,8 +485,8 @@ nav {
   vertical-align: middle;
   flex-wrap: wrap;
   z-index: 5;
-  &:hover img,
-  &:hover .badge {
+  &.hovered img,
+  &.hovered .badge {
     opacity: 0.1 !important;
   }
   div:not(#background) {
@@ -361,7 +497,7 @@ nav {
     div:not(.badge) {
       margin: 0;
     }
-    div:not(.badge):hover img {
+    div:not(.badge).hovered img {
       border-radius: 5px;
 
       transition: border-radius 0.75s ease-in-out, filter 2s;
@@ -370,10 +506,10 @@ nav {
         0 10px 10px rgba(0, 0, 0, 0.22);
       filter: grayscale(0%);
     }
-    div:hover ~ .badge {
+    div.hovered ~ .badge {
       opacity: 1 !important;
     }
-    div:not(.badge):hover::after {
+    div:not(.badge).hovered::after {
       opacity: 1;
       transition: all 1s ease-in-out 0.5s;
     }
