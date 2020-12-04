@@ -1,18 +1,7 @@
 <template>
   <div>
-    <video
-      controls
-      @mouseenter="showCloseIcon = true"
-      @mouseleave="showCloseIcon = false"
-    >
-      <source
-        src="https://res.cloudinary.com/killtrot/video/upload/v1607075680/Hyundai_Genesis_Coup%C3%A9_dedr37.mp4"
-        type="video/webm"
-      />
-    </video>
     <div
       class="close"
-      v-show="showCloseIcon"
       @click="close"
       @mouseenter="showCloseIcon = true"
     >
@@ -24,10 +13,7 @@
 <script>
 import { XIcon } from "vue-feather-icons";
 export default {
-  name: "Video",
-  data: () => ({
-    showCloseIcon: true,
-  }),
+  name: "Images",
   components: {
     XIcon,
   },
@@ -47,11 +33,7 @@ div {
   width: 100%;
   height: 100%;
   z-index: 100;
-  video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+  background: red;
   .close {
     padding: 5px;
     border-radius: 10px;

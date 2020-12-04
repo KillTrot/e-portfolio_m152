@@ -1,5 +1,12 @@
 <template>
-  <div id="app">
+  <div
+    id="app"
+    ref="app"
+    :style="{
+      overflow: canScroll ? 'auto' : 'hidden',
+      height: canScroll ? 'auto' : '100vh',
+    }"
+  >
     <transition name="fade">
       <router-view />
     </transition>
@@ -9,7 +16,24 @@
 <script>
 export default {
   name: "App",
-  components: {}
+  data: () => ({
+    canScroll: true,
+  }),
+  components: {},
+  watch: {
+    $route: {
+      handler(val) {
+        if (val.path != "/") {
+          window.scrollTo(0,0);
+          setTimeout(() => {
+            this.canScroll = false;
+          }, 1000);
+        } else {
+          this.canScroll = true;
+        }
+      },
+    },
+  },
 };
 </script>
 
@@ -23,8 +47,12 @@ export default {
 }
 html,
 body {
+  scroll-behavior: smooth;
   margin: 0;
   background: darken(#434343, 10%);
+}
+.app {
+  scroll-behavior: smooth;
 }
 .fade-enter-active {
   transition: opacity 0.5s 0.5s;
