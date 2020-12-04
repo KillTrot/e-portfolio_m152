@@ -23,7 +23,7 @@
         }"
         @mouseenter="
           setBackground(
-            'https://res.cloudinary.com/killtrot/image/upload/v1606901427/IMG_3814_d8jujt.jpg'
+            'https://res.cloudinary.com/killtrot/image/upload/v1607067456/video_first_frame_aunt1a.png'
           )
         "
         @mouseleave="setBackground(null)"
@@ -31,7 +31,7 @@
       >
         <div>
           <img
-            src="https://res.cloudinary.com/killtrot/image/upload/v1606901427/IMG_3814_d8jujt.jpg"
+            src="https://res.cloudinary.com/killtrot/image/upload/v1607067456/video_first_frame_aunt1a.png"
           />
         </div>
         <div style="pointer-events: none" class="badge">
@@ -84,38 +84,54 @@
       </div>
     </nav>
     <div
-      class="animation_div"
+      v-if="!video_link.fullscreenHide"
+      :class="{ animation_div: true, opened: video_link.top == 0 }"
       :style="{
         top: video_link.top + 'px',
         left: video_link.left + 'px',
         display: video_link.display,
+        width: video_link.width,
+        height: video_link.height,
       }"
+      v-html="video_link.innerHTML"
     ></div>
-    <div
-      class="animation_div"
+    <VideoComponent v-else></VideoComponent>
+    <component
+      :class="{ animation_div: true, opened: images_link.top == 0 }"
       :style="{
         top: images_link.top + 'px',
         left: images_link.left + 'px',
         display: images_link.display,
+        width: images_link.width,
+        height: images_link.height,
       }"
-    ></div>
-    <div
-      class="animation_div"
+      :is="images_link.component"
+      v-html="images_link.innerHTML"
+    ></component>
+    <component
+      :class="{ animation_div: true, opened: information_link.top == 0 }"
       :style="{
         top: information_link.top + 'px',
         left: information_link.left + 'px',
         display: information_link.display,
+        width: information_link.width,
+        height: information_link.height,
       }"
-    ></div>
+      :is="information_link.component"
+      v-html="information_link.innerHTML"
+    ></component>
   </div>
 </template>
 
 <script>
+// import Vue from 'vue';
+import VideoComponent from "@/components/Video.vue";
 import Logo from "@/components/Logo.vue";
 export default {
   name: "Home",
   components: {
     Logo,
+    VideoComponent,
   },
   data: () => ({
     bgSrc: null,
@@ -125,20 +141,42 @@ export default {
       top: 0,
       left: 0,
       display: "none",
+      width: "350px",
+      height: "350px",
+      innerHTML: "",
+      component: "div",
+      fullscreenHide: false,
     },
     images_link: {
       top: 0,
       left: 0,
       display: "none",
+      width: "350px",
+      height: "350px",
+      innerHTML: "",
+      component: "div",
+      fullscreenHide: false,
     },
     information_link: {
       top: 0,
       left: 0,
       display: "none",
+      width: "350px",
+      height: "350px",
+      innerHTML: "",
+      component: "div",
+      fullscreenHide: false,
     },
   }),
   methods: {
     setBackground(uri) {
+      if (
+        uri == null &&
+        (this.video_link.display != "none" ||
+          this.information_link.display != "none" ||
+          this.images_link.display != "none")
+      )
+        return;
       clearTimeout(this.timeout);
       this.bgHidden = true;
       this.timeout = setTimeout(() => {
@@ -154,12 +192,24 @@ export default {
       switch (route) {
         case "/Video":
           this.video_link.display = "block";
+          this.video_link.innerHTML = this.$refs.video_link.innerHTML;
+          setTimeout(() => {
+            this.video_link.top = 0;
+            this.video_link.left = 0;
+            this.video_link.width = "100%";
+            this.video_link.height = "100%";
+          }, 250);
+          setTimeout(() => {
+            this.video_link.fullscreenHide = true;
+          }, 1250);
           break;
         case "/Images":
           this.images_link.display = "block";
+          this.images_link.innerHTML = this.$refs.images_link.innerHTML;
           break;
         case "/Information":
           this.information_link.display = "block";
+          this.information_link.innerHTML = this.$refs.information_link.innerHTML;
           break;
       }
     },
@@ -190,13 +240,6 @@ export default {
     background-position: 100% 50%;
   }
 }
-.animation_div {
-  background: red;
-  width: 350px;
-  height: 350px;
-  position: absolute;
-  z-index: 5;
-}
 .divider {
   margin: 0 auto;
   border: 1px solid lighten(#434343, 0.1%);
@@ -212,6 +255,89 @@ export default {
   transition: all 0.5s ease-in-out;
   &.hidden {
     opacity: 0;
+  }
+}
+.animation_div {
+  transition: left 1s, top 1s, width 1s, height 1s;
+  position: absolute;
+  z-index: 5;
+  img {
+    transition: all 1s;
+    max-width: 100%;
+    min-width: 350px;
+    max-height: 350px;
+    min-height: 350px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  &.opened {
+    div:not(.badge) {
+      &::after {
+        width: 0;
+        height: 0;
+      }
+      img {
+        min-width: 100vw;
+        max-height: 100vh;
+        min-height: 350px;
+      }
+    }
+    .badge {
+      transition: all 0.5s ease 0.5s;
+      height: 0px;
+      bottom: 0;
+      * {
+        display: none;
+      }
+    }
+  }
+  div:not(.badge) {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    position: relative;
+    &::after {
+      opacity: 1;
+      transition: all 0.5s ease-in-out 0.5s;
+      position: absolute;
+      content: "";
+      z-index: -1;
+      top: calc(-1 * 5px);
+      left: calc(-1 * 5px);
+      width: calc(100% + 5px * 2);
+      height: calc(100% + 5px * 2);
+      background: linear-gradient(
+        60deg,
+        hsl(224, 85%, 66%),
+        hsl(269, 85%, 66%),
+        hsl(314, 85%, 66%),
+        hsl(359, 85%, 66%),
+        hsl(44, 85%, 66%),
+        hsl(89, 85%, 66%),
+        hsl(134, 85%, 66%),
+        hsl(179, 85%, 66%)
+      );
+      background-size: 300% 300%;
+      background-position: 0 50%;
+      border-radius: calc(2 * 5px);
+      animation: moveGradient 4s alternate infinite;
+    }
+  }
+  .badge {
+    position: relative;
+    margin: 0 auto;
+    bottom: 50px;
+    height: 50px;
+    width: 50%;
+    background: white;
+    text-align: center;
+    border-radius: 5px;
+    span {
+      line-height: 55px;
+      vertical-align: middle;
+      font-family: Magneto;
+      font-size: 1.3em;
+    }
   }
 }
 nav {
