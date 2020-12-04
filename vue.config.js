@@ -1,3 +1,5 @@
 module.exports = {
-    publicPath: '/e-portfolio_m152/'
-}
+  publicPath: '',
+  runtimeCompiler: true,
+  productionSourceMap: false
+};
