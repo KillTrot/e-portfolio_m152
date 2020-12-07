@@ -90,6 +90,7 @@
       v-html="video_link.innerHTML"
     ></div>
     <ImagesComponent
+      :class="{ images_container: true, opened: images_link.opened == true }"
       v-if="images_link.fullscreenHide"
       @close="hideImagesLink"
     ></ImagesComponent>
@@ -161,6 +162,7 @@ export default {
       imageUri:
         "https://res.cloudinary.com/killtrot/image/upload/v1606903857/IMG_3837_ygrfwa.jpg",
       hovered: false,
+      opened: false,
     },
     information_link: {
       top: 0,
@@ -262,10 +264,11 @@ export default {
       }, 1500);
     },
     changeRoute(route) {
-      this.$router.push(route).catch(()=> {});
+      this.$router.push(route).catch(() => {});
       this.video_link.display = "none";
       this.information_link.display = "none";
       this.images_link.display = "none";
+      this.images_link.opened = false;
       switch (route) {
         case "/Video":
           this.video_link.opacity = 1;
@@ -293,6 +296,9 @@ export default {
           }, 250);
           setTimeout(() => {
             this.images_link.fullscreenHide = true;
+            setTimeout(() => {
+              this.$set(this.images_link, "opened", true);
+            }, 250);
           }, 1250);
           break;
         case "/Information":
@@ -338,7 +344,7 @@ export default {
           }
         });
       },
-      immidiate: true
+      immidiate: true,
     },
   },
   mounted() {
@@ -568,6 +574,13 @@ nav {
         font-size: 1.3em;
       }
     }
+  }
+}
+.images_container {
+  opacity: 0;
+  transition: opacity 1s;
+  &.opened {
+    opacity: 1;
   }
 }
 </style>
