@@ -425,7 +425,7 @@ export default {
       }
     }
     .badge {
-      transition: all 0.5s ease 0.5s;
+      transition: all 0.5s linear 0.5s;
       height: 0px;
       bottom: 0;
       * {
@@ -508,8 +508,6 @@ nav {
 
       transition: border-radius 0.75s ease-in-out, filter 2s;
       opacity: 1 !important;
-      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
-        0 10px 10px rgba(0, 0, 0, 0.22);
       filter: grayscale(0%);
     }
     div.hovered ~ .badge {
