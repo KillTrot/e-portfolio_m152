@@ -4,23 +4,32 @@
       <x-icon size="2.5x"></x-icon>
     </div>
     <div class="images">
-      <VueCompareImage leftImage="https://source.unsplash.com/random" rightImage="https://source.unsplash.com/random"></VueCompareImage>
-      
-      <VueCompareImage leftImage="https://source.unsplash.com/random" rightImage="https://source.unsplash.com/random"></VueCompareImage>
-      
-     <VueCompareImage leftImage="https://source.unsplash.com/random" rightImage="https://source.unsplash.com/random"></VueCompareImage>
+      <VueCompareImage
+        leftImage="https://source.unsplash.com/random/?nature,water"
+        rightImage="https://source.unsplash.com/random"
+      ></VueCompareImage>
+
+      <VueCompareImage
+        leftImage="https://source.unsplash.com/random/?car"
+        rightImage="https://source.unsplash.com/random"
+      ></VueCompareImage>
+
+      <VueCompareImage
+        leftImage="https://source.unsplash.com/random/car"
+        rightImage="https://source.unsplash.com/random"
+      ></VueCompareImage>
     </div>
   </div>
 </template>
 
 <script>
 import { XIcon } from "vue-feather-icons";
-import VueCompareImage from 'vue-compare-image';
+import VueCompareImage from "vue-compare-image";
 export default {
   name: "Images",
   components: {
     XIcon,
-    VueCompareImage 
+    VueCompareImage,
   },
   methods: {
     close() {
@@ -32,8 +41,7 @@ export default {
 
 <style lang="scss" scoped>
 div {
-  
-    overflow-y: auto;
+  overflow-y: auto;
   position: fixed;
   top: 0;
   left: 0;
@@ -81,7 +89,7 @@ div {
 </style>
 
 <style lang="scss">
-.right-image{
+.right-image {
   position: absolute;
 }
 </style>
