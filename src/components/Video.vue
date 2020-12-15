@@ -6,8 +6,8 @@
       @mouseleave="showCloseIcon = false"
     >
       <source
-        src="https://res.cloudinary.com/killtrot/video/upload/v1607075680/Hyundai_Genesis_Coup%C3%A9_dedr37.mp4"
-        type="video/webm"
+        src="https://res.cloudinary.com/killtrot/video/upload/v1608037590/output_hu890g.mp4"
+        type="video/mp4"
       />
     </video>
     <div

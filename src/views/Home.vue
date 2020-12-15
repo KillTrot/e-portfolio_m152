@@ -308,6 +308,9 @@ export default {
       }
     },
     moveAnimationDivs() {
+      if (this.$router.currentRoute.path != "/") {
+        return;
+      }
       this.video_link.top = this.$refs.video_link.getBoundingClientRect().top;
       this.video_link.left = this.$refs.video_link.getBoundingClientRect().left;
       this.images_link.top = this.$refs.images_link.getBoundingClientRect().top;
