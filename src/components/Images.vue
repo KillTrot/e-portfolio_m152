@@ -19,16 +19,17 @@
       </div>
 
       <VueCompareImage
-        leftImage="https://source.unsplash.com/random/?car"
-        rightImage="https://source.unsplash.com/random"
+        leftImage="https://res.cloudinary.com/killtrot/image/upload/v1608106592/IMG_3822_xjqdd2.jpg"
+        rightImage="https://res.cloudinary.com/killtrot/image/upload/v1608106593/IMG_3822_EDIT_eg1w9g.png"
       ></VueCompareImage>
 
       <div class="description">
         <span
           >Bei diesem Bild habe ich:
           <ul>
-            <li>Vom Hintergrund die Farbtemperatur geändert</li>
-            <li>Das Motiv verschoben, um die Drittelregel einzuhalten</li>
+            <li>Mehrere Fussgänger entfernt (Link hinter dem Auto und rechts hinten am Weg)</li>
+            <li>Das Kennzeichen des Autos entfernt</li>
+            <li>Die Vigniette auf der Frontscheibe entfernt</li>
           </ul></span
         >
       </div>
@@ -187,5 +188,6 @@ div {
 .right-image {
   object-fit: cover;
   min-height: 100%;
+  margin-top: -5%;
 }
 </style>
