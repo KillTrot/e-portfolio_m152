@@ -24,7 +24,7 @@ export default {
     $route: {
       handler(val) {
         if (val.path != "/") {
-          window.scrollTo(0,0);
+          window.scrollTo(0, 0);
           setTimeout(() => {
             this.canScroll = false;
           }, 1000);
