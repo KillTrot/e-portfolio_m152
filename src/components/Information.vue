@@ -10,7 +10,7 @@
         </th>
 
         <tr>
-            <td>3.8 l Saugermotor</td>
+            <td>6 Zylinder Saugermotor</td>
         </tr>
         <th>
             <td>Antrieb</td>
@@ -18,6 +18,16 @@
         <tr><td>Heckantrieb, 6 Gang Automatik</td></tr>
         <th><td>Leistung</td></th>
         <tr><td>303 PS</td></tr>
+        <th><td>0-100 km/h</td></th>
+        <tr><td>5.6 Sekunden</td></tr>
+        <th><td>Gewicht</td></th>
+        <tr><td>1.7 t</td></tr>
+        <th><td>Preis</td></th>
+        <tr><td>12'500.- CHF (Occassion), 49'500.- CHF (Neupreis)</td></tr>
+        <th><td>Drehmoment</td></th>
+        <tr><td>360 Newtonmeter</td></tr>
+        <th><td>Hubraum</td></th>
+        <tr><td>3778 cm<sup>3</sup></td></tr>
       </thead>
     </table>
   </div>
