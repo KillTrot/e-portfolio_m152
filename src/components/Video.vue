@@ -6,7 +6,7 @@
       @mouseleave="showCloseIcon = false"
     >
       <source
-        src="https://res.cloudinary.com/killtrot/video/upload/v1608037590/output_hu890g.mp4"
+        src="https://res.cloudinary.com/killtrot/video/upload/v1608198641/output_hu890g_h264_lira42.mp4"
         type="video/mp4"
       />
     </video>
