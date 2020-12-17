@@ -27,15 +27,18 @@
         <span
           >Bei diesem Bild habe ich:
           <ul>
-            <li>Mehrere Fussgänger entfernt (Link hinter dem Auto und rechts hinten am Weg)</li>
+            <li>
+              Mehrere Fussgänger entfernt (Link hinter dem Auto und rechts
+              hinten am Weg)
+            </li>
             <li>Das Kennzeichen des Autos entfernt</li>
             <li>Die Vigniette auf der Frontscheibe entfernt</li>
           </ul></span
         >
       </div>
       <VueCompareImage
-        leftImage="https://source.unsplash.com/random/car"
-        rightImage="https://source.unsplash.com/random"
+        leftImage="https://res.cloudinary.com/killtrot/image/upload/v1608218200/IMG_3836_lsra0o.jpg"
+        rightImage="https://res.cloudinary.com/killtrot/image/upload/v1608218255/IMG_3836_EDIT_miut45.png"
       ></VueCompareImage>
       <div class="description">
         <span
@@ -189,5 +192,11 @@ div {
   object-fit: cover;
   min-height: 100%;
   margin-top: -5%;
+}
+
+@media screen and (max-width: 600px) {
+  .right-image {
+    margin-top: 0;
+  }
 }
 </style>
