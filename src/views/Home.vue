@@ -105,7 +105,12 @@
       }"
       v-html="images_link.innerHTML"
     ></div>
-    <component
+    <InformationComponent
+      :class="{ opened: information_link.opened == true }"
+      v-if="information_link.fullscreenHide"
+      @close="hideInformationLink"
+    ></InformationComponent>
+    <div
       :class="{ animation_div: true, opened: information_link.top == 0 }"
       :style="{
         top: information_link.top + 'px',
@@ -114,9 +119,8 @@
         width: information_link.width,
         height: information_link.height,
       }"
-      :is="information_link.component"
       v-html="information_link.innerHTML"
-    ></component>
+    ></div>
   </div>
 </template>
 
@@ -124,6 +128,7 @@
 // import Vue from 'vue';
 import VideoComponent from "@/components/Video.vue";
 import ImagesComponent from "@/components/Images.vue";
+import InformationComponent from "@/components/Information.vue";
 import Logo from "@/components/Logo.vue";
 export default {
   name: "Home",
@@ -131,6 +136,7 @@ export default {
     Logo,
     VideoComponent,
     ImagesComponent,
+    InformationComponent,
   },
   data: () => ({
     bgSrc: null,
@@ -263,6 +269,25 @@ export default {
         this.images_link.hovered = false;
       }, 1500);
     },
+    hideInformationLink() {
+      this.$router.push("/").catch(() => {});
+      this.information_link.fullscreenHide = false;
+      setTimeout(() => {
+        this.information_link.width = "350px";
+        this.moveAnimationDivs();
+        this.information_link.height = "350px";
+        this.setBackground("information");
+      }, 100);
+      setTimeout(() => {
+        this.information_link.opacity = 0.99;
+        setTimeout(() => {
+          this.information_link.display = "none";
+        }, 500);
+      }, 1250);
+      setTimeout(() => {
+        this.information_link.hovered = false;
+      }, 1500);
+    },
     changeRoute(route) {
       this.$router.push(route).catch(() => {});
       this.video_link.display = "none";
@@ -302,8 +327,21 @@ export default {
           }, 1250);
           break;
         case "/Information":
+          this.information_link.opacity = 1;
           this.information_link.display = "block";
           this.information_link.innerHTML = this.$refs.information_link.innerHTML;
+          setTimeout(() => {
+            this.information_link.top = 0;
+            this.information_link.left = 0;
+            this.information_link.width = "100%";
+            this.information_link.height = "100%";
+          }, 250);
+          setTimeout(() => {
+            this.information_link.fullscreenHide = true;
+            setTimeout(() => {
+              this.$set(this.information_link, "opened", true);
+            }, 250);
+          }, 1250);
           break;
       }
     },
