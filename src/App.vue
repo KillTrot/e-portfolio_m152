@@ -10,6 +10,12 @@
     <transition name="fade">
       <router-view />
     </transition>
+    <span class="copyright" style="
+    color: white;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+">© 2020 Cedric Keller</span>
   </div>
 </template>
 
