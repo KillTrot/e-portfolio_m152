@@ -20,7 +20,7 @@
 
       <VueCompareImage
         leftImage="https://res.cloudinary.com/killtrot/image/upload/v1608106592/IMG_3822_xjqdd2.jpg"
-        rightImage="https://res.cloudinary.com/killtrot/image/upload/v1608106593/IMG_3822_EDIT_eg1w9g.png"
+        rightImage="https://res.cloudinary.com/killtrot/image/upload/v1608227428/IMG_3822_EDIT_arzvpl.png"
       ></VueCompareImage>
 
       <div class="description">
@@ -28,11 +28,8 @@
           >Bei diesem Bild habe ich:
           <ul>
             <li>
-              Mehrere Fussgänger entfernt (Link hinter dem Auto und rechts
-              hinten am Weg)
+              Ich habe versucht, das Auto in eine andere Szene hinein zu edtieren
             </li>
-            <li>Das Kennzeichen des Autos entfernt</li>
-            <li>Die Vigniette auf der Frontscheibe entfernt</li>
           </ul></span
         >
       </div>
