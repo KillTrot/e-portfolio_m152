@@ -421,10 +421,10 @@ export default {
         height: 0;
       }
       img {
-        min-width: 100vw;
-        max-height: 100vh;
-        min-height: 100vh;
-        max-width: 100vw;
+        min-width: 100%;
+        max-height: 99%;
+        min-height: 99%;
+        max-width: 100%;
       }
     }
     .badge {
