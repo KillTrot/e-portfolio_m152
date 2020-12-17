@@ -44,8 +44,7 @@
         <span
           >Bei diesem Bild habe ich:
           <ul>
-            <li>Vom Hintergrund die Farbtemperatur geändert</li>
-            <li>Das Motiv verschoben, um die Drittelregel einzuhalten</li>
+            <li>Mehrere Personen aus dem Bild entfernt, teilweise musste die Kulisse neu gemacht werden</li>
           </ul></span
         >
       </div>
